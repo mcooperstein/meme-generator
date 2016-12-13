@@ -1,6 +1,6 @@
 let topTextInput, bottomTextInput, topTextSizeInput, bottomTextSizeInput, imageInput, generateBtn, canvas, ctx;
 
-function generateMeme(img) {
+function generateMeme(img, topText, bottomText) {
     canvas.width = img.width;
     canvas.height = img.height;
 
@@ -8,12 +8,19 @@ function generateMeme(img) {
     ctx.drawImage(img, 0, 0);
 
     var fontSize = canvas.width / 15;
-    ctx.font = "20px monospace";
+    ctx.font = fontSize + "px monospace";
     ctx.fillStyle = "white";
     ctx.strokeStyle = "black";
     ctx.lineWidth = fontSize / 15;
+    ctx.textAlign = "center";
 
-    ctx.fillText();
+    ctx.textBaseline = "top";
+    ctx.fillText(topText, canvas.width / 2, 0, canvas.width);
+    ctx.strokeText(topText, canvas.width / 2, 0, canvas.width);
+
+    ctx.textBaseline = "bottom";
+    ctx.fillText(bottomText, canvas.width / 2, canvas.height, canvas.width);
+    ctx.strokeText(bottomText, canvas.width / 2, canvas.height, canvas.width);
 }
 
 function init() {
@@ -36,7 +43,7 @@ function init() {
         reader.onload = function () {
             let img = new Image;
             img.src = reader.result;
-            generateMeme(img);
+            generateMeme(img, topTextInput.value, bottomTextInput.value);
         };
         reader.readAsDataURL(imageInput.files[0]);
     });
